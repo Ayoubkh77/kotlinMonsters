@@ -1,7 +1,9 @@
 package org.example
 
 import Entraineur
+import org.example.monde.Zone
 import org.example.monstre.EspeceMonstre
+import org.example.monstre.IndividuMonstre
 
 var joueur = Entraineur(1,"Sacha",100)
 var rival = Entraineur(2,"Regis",200)
@@ -111,10 +113,42 @@ val especeGalum = EspeceMonstre(
     particularites = "Peut rester immobile des heures comme une statue.",
     caracteres = "Sérieux, stoïque, fiable"
 )
+val route1 = Zone(
+    id = 1,
+    nom = "Route 1",
+    expZone = 5,
+    especesMonstres = mutableListOf(especeGalum)
+    // zoneSuivante et zonePrecedente non définies ici
+)
+
+val route2 = Zone(
+    id = 2,
+    nom = "Route 2",
+    expZone = 8,
+    especesMonstres = mutableListOf(especeAquamy)
+    // zoneSuivante et zonePrecedente non définies ici
+)
 
 
+fun main() {
 
-fun main() {}
+    route1.zoneSuivante = route2
+    route2.zonePrecedente = route1
+
+
+        // Création de trois monstres avec suffisamment d'exp pour level-up
+        val monstre1 = IndividuMonstre(101, "Flamkip", especeFlamkip, joueur, 1500.0)
+        val monstre2 = IndividuMonstre(102, "Aquamy", especeAquamy, joueur, 1500.0)
+        val monstre3 = IndividuMonstre(103, "Laoumi", especeLaoumi, joueur, 1500.0)
+
+        // Affichage des infos avec mise en couleur
+        println(changeCouleur("=== Infos Monstres après création ===", "cyan"))
+        println(changeCouleur("${monstre1.nom} est niveau ${monstre1.niveau} avec ${monstre1.exp} exp et ${monstre1.pv}/${monstre1.pvMax} PV", "jaune"))
+        println(changeCouleur("${monstre2.nom} est niveau ${monstre2.niveau} avec ${monstre2.exp} exp et ${monstre2.pv}/${monstre2.pvMax} PV", "bleu"))
+        println(changeCouleur("${monstre3.nom} est niveau ${monstre3.niveau} avec ${monstre3.exp} exp et ${monstre3.pv}/${monstre3.pvMax} PV", "vert"))
+    }
+
+
 
 /**
  * Change la couleur du message donné selon le nom de la couleur spécifié.
