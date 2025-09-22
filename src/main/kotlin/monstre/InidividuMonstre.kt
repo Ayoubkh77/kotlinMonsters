@@ -1,12 +1,14 @@
 package org.example.monstre
 
 import Entraineur
+import org.example.changeCouleur
+import kotlin.collections.minusAssign
 import kotlin.math.pow
 import kotlin.random.Random
 
 class IndividuMonstre(
     val id: Int,
-    val nom: String,
+    var nom: String,
     val espece: EspeceMonstre,
     val entraineur: Entraineur?,
     expInit: Double
@@ -66,16 +68,54 @@ class IndividuMonstre(
         pvMax += gainPvMax
         pv += gainPvMax
     }
-    fun attaquer(cible: IndividuMonstre) {
-        // Calcul des dégâts simples : différence entre attaque et défense cible (minimum 1)
-        val degats = (this.attaque - cible.defense).coerceAtLeast(1)
 
-        // On enlève les dégâts aux PV de la cible
-        cible.pv = (cible.pv - degats).coerceAtLeast(0)
+        fun attaquer(cible: IndividuMonstre) {
+            // 1. Calcul des dégâts : attaque - défense (minimum 1)
+            val degats = (this.attaque - cible.defense).coerceAtLeast(1)
 
-        // Affichage du résultat de l'attaque
-        println("${this.nom} attaque ${cible.nom} et inflige $degats dégâts.")
-        println("${cible.nom} a maintenant ${cible.pv} PV.")
+            // 2. Appliquer les dégâts aux PV de la cible
+            cible.pv -= degats  // ta classe gère les bornes min/max
+
+            // 3. Afficher un message avec changement de couleur (si tu veux)
+            println(changeCouleur("${this.nom} attaque ${cible.nom} et inflige $degats dégâts !", "rouge"))
+            println(changeCouleur("${cible.nom} a maintenant ${cible.pv} PV.", "jaune"))
+
+            // 4. Vérifier si la cible est K.O.
+            if (cible.pv == 0) {
+                println(changeCouleur("${cible.nom} est K.O. !", "magenta"))
+            }
+        }
+    fun renommer() {
+        println("Renommer ${this.nom} : ")
+        val nouveauNom = readLine()
+
+        if (!nouveauNom.isNullOrBlank()) {
+            nom = nouveauNom
+            println("✅ Le monstre a été renommé en ${this.nom}")
+        } else {
+            println("ℹ️ Nom inchangé, ${nom} conserve son nom.")
+        }
+    }
+    fun afficheDetail() {
+        println(this.espece.afficheArt())
+        println("===================================")
+        println("Nom       : ${this.nom}")
+        println("Espèce    : ${this.espece.nom}")
+        println("Niveau    : ${this.niveau}")
+        println("PV        : ${this.pv}/${this.pvMax}")
+        println("Attaque   : ${this.attaque}")
+        println("Défense   : ${this.defense}")
+        println("Vitesse   : ${this.vitesse}")
+        println("AttaqueSp : ${this.attaqueSpe}")
+        println("DéfenseSp : ${this.defenseSpe}")
+        println("===================================")
+
+        // Ici tu pourras afficher l’art ASCII s’il est stocké dans l’espèce
+        // Exemple : println(this.espece.asciiArt)
     }
 
 }
+
+
+
+

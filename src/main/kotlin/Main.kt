@@ -1,6 +1,7 @@
 package org.example
 
 import Entraineur
+import org.example.item.Badge
 import org.example.monde.Zone
 import org.example.monstre.EspeceMonstre
 import org.example.monstre.IndividuMonstre
@@ -9,6 +10,9 @@ var joueur = Entraineur(1,"Sacha",100)
 var rival = Entraineur(2,"Regis",200)
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+val badgePierre = Badge(1, "Badge Roche", "Badge gagné lorsque le joueur atteint la arène de pierre.", "Pierre")
+
+
 val especeFlamkip = EspeceMonstre(
     id = 4,
     nom = "Flamkip",
@@ -146,7 +150,17 @@ fun main() {
         println(changeCouleur("${monstre1.nom} est niveau ${monstre1.niveau} avec ${monstre1.exp} exp et ${monstre1.pv}/${monstre1.pvMax} PV", "jaune"))
         println(changeCouleur("${monstre2.nom} est niveau ${monstre2.niveau} avec ${monstre2.exp} exp et ${monstre2.pv}/${monstre2.pvMax} PV", "bleu"))
         println(changeCouleur("${monstre3.nom} est niveau ${monstre3.niveau} avec ${monstre3.exp} exp et ${monstre3.pv}/${monstre3.pvMax} PV", "vert"))
-    }
+             println(changeCouleur("\n=== Test du renommage ===", "magenta"))
+            println("Nom actuel du monstre1 : ${monstre1.nom}")
+
+    monstre1.renommer()
+
+    println("Nom final du monstre1 : ${monstre1.nom}")
+    println(changeCouleur("\n=== Test de l'afficheDetail ===", "cyan"))
+    monstre1.afficheDetail()
+    println("Badge : ${badgePierre.nom}, Champion : ${badgePierre.champion}")
+}
+
 
 
 
