@@ -1,7 +1,7 @@
 package org.example.monstre
 
-import Entraineur
 import org.example.changeCouleur
+import org.example.dresseur.Entraineur
 import kotlin.collections.minusAssign
 import kotlin.math.pow
 import kotlin.random.Random
@@ -10,7 +10,7 @@ class IndividuMonstre(
     val id: Int,
     var nom: String,
     val espece: EspeceMonstre,
-    val entraineur: Entraineur?,
+    var entraineur: Entraineur?,
     expInit: Double
 ) {
 
@@ -69,22 +69,23 @@ class IndividuMonstre(
         pv += gainPvMax
     }
 
-        fun attaquer(cible: IndividuMonstre) {
-            // 1. Calcul des dégâts : attaque - défense (minimum 1)
-            val degats = (this.attaque - cible.defense).coerceAtLeast(1)
+    fun attaquer(cible: IndividuMonstre) {
+        // 1. Calcul des dégâts : attaque - défense (minimum 1)
+        val degats = (this.attaque - cible.defense).coerceAtLeast(1)
 
-            // 2. Appliquer les dégâts aux PV de la cible
-            cible.pv -= degats  // ta classe gère les bornes min/max
+        // 2. Appliquer les dégâts aux PV de la cible
+        cible.pv -= degats  // ta classe gère les bornes min/max
 
-            // 3. Afficher un message avec changement de couleur (si tu veux)
-            println(changeCouleur("${this.nom} attaque ${cible.nom} et inflige $degats dégâts !", "rouge"))
-            println(changeCouleur("${cible.nom} a maintenant ${cible.pv} PV.", "jaune"))
+        // 3. Afficher un message avec changement de couleur (si tu veux)
+        println(changeCouleur("${this.nom} attaque ${cible.nom} et inflige $degats dégâts !", "rouge"))
+        println(changeCouleur("${cible.nom} a maintenant ${cible.pv} PV.", "jaune"))
 
-            // 4. Vérifier si la cible est K.O.
-            if (cible.pv == 0) {
-                println(changeCouleur("${cible.nom} est K.O. !", "magenta"))
-            }
+        // 4. Vérifier si la cible est K.O.
+        if (cible.pv == 0) {
+            println(changeCouleur("${cible.nom} est K.O. !", "magenta"))
         }
+    }
+
     fun renommer() {
         println("Renommer ${this.nom} : ")
         val nouveauNom = readLine()
@@ -96,6 +97,7 @@ class IndividuMonstre(
             println("ℹ️ Nom inchangé, ${nom} conserve son nom.")
         }
     }
+
     fun afficheDetail() {
         println(this.espece.afficheArt())
         println("===================================")
@@ -114,7 +116,34 @@ class IndividuMonstre(
         // Exemple : println(this.espece.asciiArt)
     }
 
+
+    fun afficheAsciiFace() {
+        println("ASCII art du monstre ${this.nom} (face)")
+        // Ici tu peux afficher un String ou une liste de String correspondant à l'art ascii
+        println(
+            """
+          /\_/\
+         ( o.o )
+          > ^ <
+        """.trimIndent()
+        )
+    }
+
+    fun afficheAsciiDos() {
+        println("ASCII art du monstre ${this.nom} (dos)")
+        println(
+            """
+          |\_/|
+          (o.o)
+          >^<
+        """.trimIndent()
+        )
+    }
+
+    // ...
 }
+
+
 
 
 

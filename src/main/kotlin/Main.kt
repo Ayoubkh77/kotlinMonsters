@@ -1,12 +1,13 @@
 package org.example
 
-import Entraineur
+
+import org.example.dresseur.Entraineur
 import org.example.item.Badge
 import org.example.monde.Zone
 import org.example.monstre.EspeceMonstre
 import org.example.monstre.IndividuMonstre
 
-var joueur = Entraineur(1,"Sacha",100)
+var joueur = Entraineur(1, "Sacha", 100)
 var rival = Entraineur(2,"Regis",200)
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
