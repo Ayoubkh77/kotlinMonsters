@@ -3,6 +3,9 @@ package org.example
 
 import org.example.dresseur.Entraineur
 import org.example.item.Badge
+import org.example.item.MonsterKube
+import org.example.jeu.CombatMonstre
+import org.example.jeu.Partie
 import org.example.monde.Zone
 import org.example.monstre.EspeceMonstre
 import org.example.monstre.IndividuMonstre
@@ -12,8 +15,19 @@ var rival = Entraineur(2,"Regis",200)
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 val badgePierre = Badge(1, "Badge Roche", "Badge gagné lorsque le joueur atteint la arène de pierre.", "Pierre")
+val kube1 = MonsterKube(1, "Kube", "Un petit kube pour capturer un monstre", 50.0)
+// --- Fonction nouvellePartie ---
 
-
+fun nouvellePartie(): Partie {
+    println("🎮 Bienvenue dans KotlinMonsters !")
+    print("Entrez le nom de votre dresseur : ")
+    val nomJoueur = readLine()?.trim()
+    if (!nomJoueur.isNullOrEmpty()) {
+        joueur.nom = nomJoueur
+    }
+    val partie = Partie(1, joueur, route1)
+    return partie
+}
 val especeFlamkip = EspeceMonstre(
     id = 4,
     nom = "Flamkip",
@@ -136,11 +150,19 @@ val route2 = Zone(
 
 
 fun main() {
+        // Création d'un joueur (à adapter selon ta classe Joueur)
+
+
 
     route1.zoneSuivante = route2
     route2.zonePrecedente = route1
+    joueur.sacAItems.add(kube1)
 
+    val partie =nouvellePartie()
+    partie.choixStarter(mutableListOf(especeAquamy,especeFlamkip,especeBugsyface))
+    partie.jouer()
 
+/*
         // Création de trois monstres avec suffisamment d'exp pour level-up
         val monstre1 = IndividuMonstre(101, "Flamkip", especeFlamkip, joueur, 1500.0)
         val monstre2 = IndividuMonstre(102, "Aquamy", especeAquamy, joueur, 1500.0)
@@ -160,6 +182,21 @@ fun main() {
     println(changeCouleur("\n=== Test de l'afficheDetail ===", "cyan"))
     monstre1.afficheDetail()
     println("Badge : ${badgePierre.nom}, Champion : ${badgePierre.champion}")
+
+
+    var monstreSauvage= IndividuMonstre(1,"Gobelin", especeGalum,null,800.0)
+    // Ajout d'une équipe de monstres au joueur (à adapter selon ta classe Monstre)
+    joueur.equipeMonstre.add(monstre1)
+    //joueur.equipeMonstre.add(Monstre("Orc", pvMax = 50, pv = 50))
+
+    // Création de l'objet Combat (à adapter selon ta classe Combat)
+    val combat = CombatMonstre(joueur,monstre1,monstreSauvage)
+
+    // Lancement du combat
+    combat.lanceCombat()
+    */
+
+
 }
 
 

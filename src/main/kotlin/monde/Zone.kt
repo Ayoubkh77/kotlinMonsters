@@ -18,8 +18,7 @@ class Zone(
     // Génère un monstre sauvage aléatoire appartenant aux espèces de la zone
     fun genereMonstre(): IndividuMonstre {
         val especeChoisie = especesMonstres.random()
-        val variation = Random.nextDouble(0.8, 1.2)  // ±20%
-        val expMonstre = expZone.toDouble() * variation
+        val expMonstre = (expZone * Random.nextDouble(0.8, 1.2)).toInt().toDouble()
 
         return IndividuMonstre(
             id = Random.nextInt(1000, 9999),
@@ -30,16 +29,17 @@ class Zone(
         )
     }
 
-    // Lance un combat entre un monstre sauvage généré et le premier monstre du joueur en vie
     fun rencontreMonstre(joueur: Entraineur) {
         val monstreSauvage = genereMonstre()
         val monstreJoueur = joueur.equipeMonstre.firstOrNull { it.pv > 0 }
 
         if (monstreJoueur != null) {
+            println("🌿 En entrant dans $nom, un ${monstreSauvage.nom} sauvage apparaît !")
             val combat = CombatMonstre(joueur, monstreJoueur, monstreSauvage)
             combat.lanceCombat()
         } else {
-            println("Aucun monstre en état de combattre dans l'équipe du joueur.")
+            println("❌ Aucun monstre en état de combattre dans l'équipe du joueur.")
         }
     }
+
 }
